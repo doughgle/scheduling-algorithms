@@ -1,3 +1,4 @@
+#!/usr/bin/python
 '''
 CS5250 Assignment 4, Scheduling policies simulator
 Sample skeleton program
