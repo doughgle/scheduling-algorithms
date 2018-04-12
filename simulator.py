@@ -58,7 +58,6 @@ def SRTF_scheduling(process_list):
 def SJF_scheduling(process_list, alpha):
     return (["to be completed, scheduling SJF without using information from process.burst_time"],0.0)
 
-
 def read_input():
     result = []
     with open(input_file) as f:
@@ -69,12 +68,12 @@ def read_input():
                 exit()
             result.append(Process(int(array[0]),int(array[1]),int(array[2])))
     return result
+
 def write_output(file_name, schedule, avg_waiting_time):
     with open(file_name,'w') as f:
         for item in schedule:
             f.write(str(item) + '\n')
         f.write('average waiting time %.2f \n'%(avg_waiting_time))
-
 
 def main(argv):
     process_list = read_input()
