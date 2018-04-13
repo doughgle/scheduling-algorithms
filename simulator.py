@@ -47,10 +47,12 @@ def FCFS_scheduling(process_list):
     average_waiting_time = waiting_time/float(len(process_list))
     return schedule, average_waiting_time
 
-#Input: process_list, time_quantum (Positive Integer)
-#Output_1 : Schedule list contains pairs of (time_stamp, proccess_id) indicating the time switching to that proccess_id
-#Output_2 : Average Waiting Time
 def RR_scheduling(process_list, time_quantum):
+    '''
+    #Input: process_list, time_quantum (Positive Integer)
+    #Output_1 : Schedule list contains pairs of (time_stamp, proccess_id) indicating the time switching to that process_id
+    #Output_2 : Average Waiting Time
+    '''
     schedule = []
     time = 0
     quantum = time_quantum
@@ -70,7 +72,7 @@ def RR_scheduling(process_list, time_quantum):
             q.append(p)
 
         quantum = time_quantum
-        
+
     return (schedule, 0.0)
 
 def SRTF_scheduling(process_list):
