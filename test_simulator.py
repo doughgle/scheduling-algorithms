@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 import unittest
 from simulator import Process, FCFS_scheduling, RR_scheduling
 
