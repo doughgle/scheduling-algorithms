@@ -4,29 +4,25 @@ from simulator import Process, FCFS_scheduling
 
 class SimulatorTest(unittest.TestCase):
 
-    def test_FCFS(self):
-        '''test First Come First Served outputs process switching events'''
-        process_list = [
-          # id, arrive_time, burst_time
-          Process(0, 0, 4),
-          Process(1, 2, 3),
-          Process(2, 5, 1)
+    def setUp(self):
+        self.process_list = [
+        # id, arrive_time, burst_time
+        Process(0, 0, 4),
+        Process(1, 2, 3),
+        Process(2, 5, 1)
         ]
 
-        (actual, FCFS_avg_waiting_time) = FCFS_scheduling(process_list)
+    def test_FCFS(self):
+        '''test First Come First Served outputs process switching events'''
+
+        (actual, FCFS_avg_waiting_time) = FCFS_scheduling(self.process_list)
 
         self.assertListEqual([(0, 0), (4, 1), (7, 2)], actual)
 
     def test_average_waiting_time(self):
         '''waiting_time of each process / num of processes'''
-        process_list = [
-          # id, arrive_time, burst_time
-          Process(0, 0, 4),
-          Process(1, 2, 3),
-          Process(2, 5, 1)
-        ]
 
-        (actual, FCFS_avg_waiting_time) = FCFS_scheduling(process_list)
+        (actual, FCFS_avg_waiting_time) = FCFS_scheduling(self.process_list)
 
         self.assertEquals(1.3333333333333333, FCFS_avg_waiting_time)
 
