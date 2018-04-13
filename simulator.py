@@ -55,6 +55,7 @@ def RR_scheduling(process_list, time_quantum):
     '''
     schedule = []
     time = 0
+    waiting_time = 0
     quantum = time_quantum
     q = deque(process_list)
 
@@ -62,6 +63,7 @@ def RR_scheduling(process_list, time_quantum):
         # context switch
         p = q.popleft()
         schedule.append((time, p.id))
+        waiting_time = waiting_time + (time - p.arrive_time)
 
         while quantum > 0 and p.burst_time > 0:
             quantum -= 1
@@ -69,11 +71,12 @@ def RR_scheduling(process_list, time_quantum):
             time += 1
 
         if(p.burst_time > 0):
+            p.arrive_time = time
             q.append(p)
 
         quantum = time_quantum
 
-    return (schedule, 0.0)
+    return (schedule, waiting_time / float(len(process_list)))
 
 def SRTF_scheduling(process_list):
     return (["to be completed, scheduling process_list on SRTF, using process.burst_time to calculate the remaining time of the current process "], 0.0)
