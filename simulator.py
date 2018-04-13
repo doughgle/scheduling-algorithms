@@ -44,8 +44,11 @@ def FCFS_scheduling(process_list):
         schedule.append((current_time,process.id))
         waiting_time = waiting_time + (current_time - process.arrive_time)
         current_time = current_time + process.burst_time
-    average_waiting_time = waiting_time/float(len(process_list))
-    return schedule, average_waiting_time
+
+    return schedule, average_waiting_time(waiting_time, process_list)
+
+def average_waiting_time(waiting_time, process_list):
+    return waiting_time / float(len(process_list))
 
 def RR_scheduling(process_list, time_quantum):
     '''
@@ -76,7 +79,7 @@ def RR_scheduling(process_list, time_quantum):
 
         quantum = time_quantum
 
-    return (schedule, waiting_time / float(len(process_list)))
+    return schedule, average_waiting_time(waiting_time, process_list)
 
 def SRTF_scheduling(process_list):
     return (["to be completed, scheduling process_list on SRTF, using process.burst_time to calculate the remaining time of the current process "], 0.0)
