@@ -19,6 +19,7 @@ Revision 2:
     Thanks Lee Wei Ping for trying and pointing out the difficulty & ambiguity with future_prediction SRTF.
 '''
 import sys
+from collections import deque
 
 input_file = 'input.txt'
 
@@ -49,8 +50,28 @@ def FCFS_scheduling(process_list):
 #Input: process_list, time_quantum (Positive Integer)
 #Output_1 : Schedule list contains pairs of (time_stamp, proccess_id) indicating the time switching to that proccess_id
 #Output_2 : Average Waiting Time
-def RR_scheduling(process_list, time_quantum ):
-    return (["to be completed, scheduling process_list on round robin policy with time_quantum"], 0.0)
+def RR_scheduling(process_list, time_quantum):
+    schedule = []
+    time = 0
+    quantum = time_quantum
+    q = deque(process_list)
+
+    while len(q) > 0:
+        # context switch
+        p = q.popleft()
+        schedule.append((time, p.id))
+
+        while quantum > 0 and p.burst_time > 0:
+            quantum -= 1
+            p.burst_time -= 1
+            time += 1
+
+        if(p.burst_time > 0):
+            q.append(p)
+
+        quantum = time_quantum
+        
+    return (schedule, 0.0)
 
 def SRTF_scheduling(process_list):
     return (["to be completed, scheduling process_list on SRTF, using process.burst_time to calculate the remaining time of the current process "], 0.0)
