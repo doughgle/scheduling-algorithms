@@ -17,5 +17,19 @@ class SimulatorTest(unittest.TestCase):
 
         self.assertListEqual([(0, 0), (4, 1), (7, 2)], actual)
 
+    def test_average_waiting_time(self):
+        '''waiting_time of each process / num of processes'''
+        process_list = [
+          # id, arrive_time, burst_time
+          Process(0, 0, 4),
+          Process(1, 2, 3),
+          Process(2, 5, 1)
+        ]
+
+        (actual, FCFS_avg_waiting_time) = FCFS_scheduling(process_list)
+
+        self.assertEquals(1.3333333333333333, FCFS_avg_waiting_time)
+
+
 if __name__ == '__main__':
     unittest.main()
