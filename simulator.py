@@ -29,9 +29,12 @@ class Process:
         self.id = id
         self.arrive_time = arrive_time
         self.burst_time = burst_time
-    #for printing purpose
+
     def __repr__(self):
         return ('id %d : arrive_time %d,  burst_time %d'%(self.id, self.arrive_time, self.burst_time))
+
+    def __cmp__(self, other):
+        return self.id.__cmp__(other.id)
 
 def FCFS_scheduling(process_list):
     #store the (switching time, proccess_id) pair
