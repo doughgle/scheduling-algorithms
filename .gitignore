@@ -1,2 +1,9 @@
-*.txt
+FCFS.txt
+RR.txt
+SJF.txt
+SRTF_1.txt
+SRTF_2.txt
+SRTF.txt
 *.pyc
+/venv
+/.hypothesis
