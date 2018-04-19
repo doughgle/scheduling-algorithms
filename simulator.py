@@ -65,7 +65,7 @@ def RR_scheduling(process_list, time_quantum):
     quantum = time_quantum
     q = deque(process_list)
 
-    while len(q) > 0:
+    while q:
         # context switch
         p = q.popleft()
         schedule.append((time, p.id))
