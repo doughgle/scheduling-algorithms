@@ -99,6 +99,8 @@ def SRTF_scheduling(process_list):
         arrived = [p for p in q if p.arrive_time <= time]
         #  sort by burst_time ascending
         sorted_procs = sorted(arrived, key=lambda p: p.burst_time, reverse=True)
+        if not sorted_procs:
+            break
         p = sorted_procs.pop()
         q.remove(p)
 
