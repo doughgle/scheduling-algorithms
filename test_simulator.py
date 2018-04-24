@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import unittest
-from simulator import Process, FCFS_scheduling, RR_scheduling
+from simulator import *
 
 class SimulatorTest(unittest.TestCase):
 
@@ -46,6 +46,13 @@ class SimulatorTest(unittest.TestCase):
         (schedule, avg_waiting_time) = RR_scheduling(self.process_list, 3)
 
         self.assertEquals(2.0, avg_waiting_time)
+
+    def test_SRTF(self):
+        '''Shortest remaining time first'''
+
+        (schedule, avg_waiting_time) = SRTF_scheduling(self.process_list)
+
+        self.assertListEqual([(0, 0), (4, 1), (5, 2), (6, 1)], schedule)
 
 if __name__ == '__main__':
     unittest.main()

@@ -85,7 +85,35 @@ def RR_scheduling(process_list, time_quantum):
     return schedule, average_waiting_time(waiting_time, process_list)
 
 def SRTF_scheduling(process_list):
-    return (["to be completed, scheduling process_list on SRTF, using process.burst_time to calculate the remaining time of the current process "], 0.0)
+    schedule = []
+    time = 0
+    runningPid = -1
+    waiting_time = 0
+
+    q = deque(process_list)
+
+    while q:
+        # --- Schedule
+        #  filter out processes that haven't yet arrived
+        arrived = [p for p in q if p.arrive_time <= time]
+        #  sort by burst_time ascending
+        sorted_procs = sorted(arrived, key=lambda p: p.burst_time, reverse=True)
+        p = sorted_procs.pop()
+        q.remove(p)
+
+        # --- context switch
+        if p.id != runningPid:
+            schedule.append((time, p.id))
+            runningPid = p.id
+
+        # --- Execute
+        p.burst_time -= 1
+        time += 1
+        if p.burst_time > 0:
+            p.arrive_time = time
+            q.append(p)
+
+    return schedule, average_waiting_time(waiting_time, process_list)
 
 def SJF_scheduling(process_list, alpha):
     return (["to be completed, scheduling SJF without using information from process.burst_time"],0.0)
