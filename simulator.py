@@ -20,7 +20,7 @@ Revision 2:
 '''
 import sys
 from collections import deque
-
+from copy import deepcopy
 input_file = 'input.txt'
 
 class Process:
@@ -64,7 +64,7 @@ def RR_scheduling(process_list, time_quantum):
     time = 0
     waiting_time = 0
     quantum = time_quantum
-    q = deque(process_list)
+    q = deque(deepcopy(process_list))
 
     while q:
         # context switch
@@ -91,7 +91,7 @@ def SRTF_scheduling(process_list):
     runningPid = -1
     waiting_time = 0
 
-    q = deque(process_list)
+    q = deque(deepcopy(process_list))
 
     while q:
         # --- Schedule
@@ -148,9 +148,11 @@ def main(argv):
     FCFS_schedule, FCFS_avg_waiting_time =  FCFS_scheduling(process_list)
     write_output('FCFS.txt', FCFS_schedule, FCFS_avg_waiting_time )
     print ("simulating RR ----")
+    print ("process_list=" + str(process_list))
     RR_schedule, RR_avg_waiting_time =  RR_scheduling(process_list,time_quantum = 2)
     write_output('RR.txt', RR_schedule, RR_avg_waiting_time )
     print ("simulating SRTF ----")
+    print ("process_list=" + str(process_list))
     SRTF_schedule, SRTF_avg_waiting_time =  SRTF_scheduling(process_list)
     write_output('SRTF.txt', SRTF_schedule, SRTF_avg_waiting_time )
     print ("simulating SJF ----")
