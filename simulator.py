@@ -51,6 +51,7 @@ def FCFS_scheduling(process_list):
     return schedule, average_waiting_time(waiting_time, process_list)
 
 def average_waiting_time(waiting_time, process_list):
+    '''Defined as total waiting_time / num of processes in process_list'''
     return waiting_time / float(len(process_list))
 
 def RR_scheduling(process_list, time_quantum):
@@ -105,6 +106,7 @@ def SRTF_scheduling(process_list):
         if p.id != runningPid:
             schedule.append((time, p.id))
             runningPid = p.id
+            waiting_time = waiting_time + (time - p.arrive_time)
 
         # --- Execute
         p.burst_time -= 1

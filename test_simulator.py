@@ -54,5 +54,13 @@ class SimulatorTest(unittest.TestCase):
 
         self.assertListEqual([(0, 0), (4, 1), (5, 2), (6, 1)], schedule)
 
+    def test_average_waiting_time_SRTF(self):
+        '''avg waiting time for SRTF'''
+
+        (schedule, avg_waiting_time) = SRTF_scheduling(self.process_list)
+
+        self.assertEquals(1.0, avg_waiting_time)
+
+
 if __name__ == '__main__':
     unittest.main()
