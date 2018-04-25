@@ -48,7 +48,7 @@ class SimulatorTest(unittest.TestCase):
         self.assertEquals(2.0, avg_waiting_time)
 
     def test_SRTF(self):
-        '''Shortest remaining time first'''
+        '''Shortest Remaining Time First (basically SJF with pre-emption)'''
 
         (schedule, avg_waiting_time) = SRTF_scheduling(self.process_list)
 
@@ -61,6 +61,31 @@ class SimulatorTest(unittest.TestCase):
 
         self.assertEquals(1.0, avg_waiting_time)
 
+    def test_SJF(self):
+        '''Shortest Job First has no pre-emption (i.e. runs jobs to completion)'''
+        self.process_list = [
+        # id, arrive_time, burst_time
+        Process(0, 0, 3),
+        Process(1, 1, 2),
+        Process(2, 2, 1)
+        ]
+
+        (schedule, avg_waiting_time) = SJF_scheduling(self.process_list, 1.0)
+
+        self.assertListEqual([(0, 0), (3, 2), (4, 1)], schedule)
+
+    def test_average_waiting_time_SRTF(self):
+        '''avg waiting time for SRTF'''
+        self.process_list = [
+        # id, arrive_time, burst_time
+        Process(0, 0, 3),
+        Process(1, 1, 2),
+        Process(2, 2, 1)
+        ]
+
+        (schedule, avg_waiting_time) = SJF_scheduling(self.process_list, 1.0)
+
+        self.assertEquals(1.3333333333333333, avg_waiting_time)
 
 if __name__ == '__main__':
     unittest.main()
