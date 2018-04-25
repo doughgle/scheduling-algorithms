@@ -130,15 +130,18 @@ def SJF_scheduling(process_list, alpha):
         # --- Schedule a process
         arrived = [p for p in q if p.arrive_time <= time]
         sorted_procs = sorted(arrived, key=lambda p: p.burst_time, reverse=True)
-        if sorted_procs:
-            p = sorted_procs.pop()
-            schedule.append((time, p.id))
-            waiting_time = waiting_time + (time - p.arrive_time)
+        print "sorted_procs=" + str(sorted_procs)
+        if not sorted_procs:
+            break
 
-            # --- Execute
-            time += p.burst_time
-            p.burst_time = 0
-            q.remove(p)
+        p = sorted_procs.pop()
+        schedule.append((time, p.id))
+        waiting_time = waiting_time + (time - p.arrive_time)
+
+        # --- Execute
+        time += p.burst_time
+        p.burst_time = 0
+        q.remove(p)
 
     return schedule, average_waiting_time(waiting_time, process_list)
 
