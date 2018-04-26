@@ -68,8 +68,13 @@ def RR_scheduling(process_list, time_quantum):
     q = deque(deepcopy(process_list))
 
     while q:
+        # --- Schedule
+        #  filter out processes that haven't yet arrived
+        arrived = [p for p in q if p.arrive_time <= time]
+
         # context switch
-        p = q.popleft()
+        p = sorted(arrived).pop()
+        q.remove(p)
         schedule.append((time, p.id))
         waiting_time = waiting_time + (time - p.arrive_time)
 
@@ -132,7 +137,6 @@ def SJF_scheduling(process_list, alpha):
         # --- Schedule a process
         arrived = [p for p in q if p.arrive_time <= time]
         sorted_procs = sorted(arrived, key=lambda p: p.burst_time, reverse=True)
-        print "sorted_procs=" + str(sorted_procs)
         if not sorted_procs:
             break
 
