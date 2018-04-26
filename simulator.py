@@ -21,7 +21,8 @@ Revision 2:
 import sys
 from collections import deque
 from copy import deepcopy
-input_file = 'input.txt'
+
+# TODO: initial guess = 5 thing
 
 class Process:
     last_scheduled_time = 0
@@ -86,6 +87,7 @@ def RR_scheduling(process_list, time_quantum):
     return schedule, average_waiting_time(waiting_time, process_list)
 
 def SRTF_scheduling(process_list):
+    '''Shortest Remaining Time First (SRTF) Scheduling'''
     schedule = []
     time = 0
     runningPid = -1
@@ -145,7 +147,7 @@ def SJF_scheduling(process_list, alpha):
 
     return schedule, average_waiting_time(waiting_time, process_list)
 
-def read_input():
+def read_input(input_file):
     result = []
     with open(input_file) as f:
         for line in f:
@@ -163,7 +165,8 @@ def write_output(file_name, schedule, avg_waiting_time):
         f.write('average waiting time %.2f \n'%(avg_waiting_time))
 
 def main(argv):
-    process_list = read_input()
+    input_file = 'input.txt'
+    process_list = read_input(input_file)
     print ("printing input ----")
     for process in process_list:
         print (process)
