@@ -130,6 +130,7 @@ def SRTF_scheduling(process_list):
     return schedule, average_waiting_time(waiting_time, process_list)
 
 def SJF_scheduling(process_list, alpha):
+    '''Shortest Job First'''
     schedule = []
     waiting_time = 0
     time = 0
@@ -140,17 +141,17 @@ def SJF_scheduling(process_list, alpha):
         # --- Schedule a process
         arrived = [p for p in q if p.arrive_time <= time]
         sorted_procs = sorted(arrived, key=lambda p: p.burst_time, reverse=True)
-        if not sorted_procs:
-            break
+        if sorted_procs:
+            p = sorted_procs.pop()
+            schedule.append((time, p.id))
+            waiting_time = waiting_time + (time - p.arrive_time)
 
-        p = sorted_procs.pop()
-        schedule.append((time, p.id))
-        waiting_time = waiting_time + (time - p.arrive_time)
-
-        # --- Execute
-        time += p.burst_time
-        p.burst_time = 0
-        q.remove(p)
+            # --- Execute
+            time += p.burst_time
+            p.burst_time = 0
+            q.remove(p)
+        else:
+            time += 1
 
     return schedule, average_waiting_time(waiting_time, process_list)
 

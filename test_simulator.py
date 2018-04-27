@@ -67,15 +67,16 @@ class SimulatorTest(unittest.TestCase):
         # id, arrive_time, burst_time
         Process(0, 0, 3),
         Process(1, 1, 2),
-        Process(2, 2, 1)
+        Process(2, 2, 1),
+        Process(3, 30, 5)
         ]
 
         (schedule, avg_waiting_time) = SJF_scheduling(self.process_list, 1.0)
 
-        self.assertListEqual([(0, 0), (3, 2), (4, 1)], schedule)
+        self.assertListEqual([(0, 0), (3, 2), (4, 1), (30, 3)], schedule)
 
-    def test_average_waiting_time_SRTF(self):
-        '''avg waiting time for SRTF'''
+    def test_average_waiting_time_SJF(self):
+        '''avg waiting time for SJF'''
         self.process_list = [
         # id, arrive_time, burst_time
         Process(0, 0, 3),
