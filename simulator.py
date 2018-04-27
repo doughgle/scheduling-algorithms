@@ -72,8 +72,8 @@ def RR_scheduling(process_list, time_quantum):
         #  filter out processes that haven't yet arrived
         arrived = sorted([p for p in q if p.arrive_time <= time])
         if not arrived:
-            time += quantum
-            break
+            time += 1
+            continue
 
         # context switch
         p = arrived.pop()
@@ -110,7 +110,9 @@ def SRTF_scheduling(process_list):
         #  sort by burst_time ascending
         sorted_procs = sorted(arrived, key=lambda p: p.burst_time, reverse=True)
         if not sorted_procs:
-            break
+            time += 1
+            continue
+
         p = sorted_procs.pop()
         q.remove(p)
 
@@ -130,7 +132,7 @@ def SRTF_scheduling(process_list):
     return schedule, average_waiting_time(waiting_time, process_list)
 
 def SJF_scheduling(process_list, alpha):
-    '''Shortest Job First'''
+    '''Shortest Job First - no pre-emption, jobs run to completion.'''
     schedule = []
     waiting_time = 0
     time = 0
