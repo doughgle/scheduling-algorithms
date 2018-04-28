@@ -70,12 +70,13 @@ def RR_scheduling(process_list, time_quantum):
     while q:
         # --- Schedule
         #  filter out processes that haven't yet arrived
-        arrived = sorted([p for p in q if p.arrive_time <= time])
+        arrived = [p for p in q if p.arrive_time <= time]
         if not arrived:
             time += 1
             continue
 
         # context switch
+        arrived.reverse()
         p = arrived.pop()
         q.remove(p)
         schedule.append((time, p.id))
