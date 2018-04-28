@@ -27,7 +27,7 @@ class AverageWaitingTimeTest(unittest.TestCase):
     def test_SJF_min_avg_waiting_time(self):
         '''Find the historical predicted burst_time weighting (alpha) which produces the minimum average waiting time for SJF.'''
         results = []
-        for alpha in [x/10.0 for x in range(0,10)]:
+        for alpha in [x/100.0 for x in range(0,100)]:
             (schedule, avg_waiting_time) = SJF_scheduling(self.process_list, alpha)
             results.append((alpha, avg_waiting_time, schedule))
 
