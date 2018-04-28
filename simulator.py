@@ -140,14 +140,14 @@ def SJF_scheduling(process_list, alpha):
     schedule = []
     waiting_time = 0
     time = 0
-    burst_lookup = {}
+    predicted_burst = PredictedBurstTime(alpha)
 
     q = deque(deepcopy(process_list))
 
     while q:
         # --- Schedule a process
         arrived = [p for p in q if p.arrive_time <= time]
-        sorted_procs = sorted(arrived, key=lambda p: get_predicted_burst(burst_lookup, p.id), reverse=True)
+        sorted_procs = sorted(arrived, key=lambda p: predicted_burst.get(p.id), reverse=True)
         if sorted_procs:
             p = sorted_procs.pop()
             schedule.append((time, p.id))
@@ -155,8 +155,7 @@ def SJF_scheduling(process_list, alpha):
 
             # --- Execute
             time += p.burst_time
-            prediction = alpha * p.burst_time + (1 - alpha) * get_predicted_burst(burst_lookup, p.id)
-            set_predicted_burst(burst_lookup, p.id, prediction)
+            predicted_burst.update(p.id, p.burst_time)
             p.burst_time = 0
             q.remove(p)
         else:
@@ -164,14 +163,22 @@ def SJF_scheduling(process_list, alpha):
 
     return schedule, average_waiting_time(waiting_time, process_list)
 
-def get_predicted_burst(burst_lookup, pid):
-    try:
-        return burst_lookup[pid]
-    except KeyError as e:
-        return 5
+class PredictedBurstTime:
+    INITIAL_PREDICTION = 5
 
-def set_predicted_burst(burst_lookup, pid, prediction):
-    burst_lookup[pid] = prediction
+    def __init__(self, alpha):
+        self.alpha = alpha
+        self.burst_lookup = {}
+
+    def get(self, pid):
+        try:
+            return self.burst_lookup[pid]
+        except KeyError as e:
+            return self.INITIAL_PREDICTION
+
+    def update(self, pid, actual_burst_time):
+        prediction = self.alpha * actual_burst_time + (1 - self.alpha) * self.get(pid)
+        self.burst_lookup[pid] = prediction
 
 def read_input(input_file):
     result = []
