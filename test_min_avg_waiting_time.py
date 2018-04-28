@@ -17,9 +17,11 @@ class AverageWaitingTimeTest(unittest.TestCase):
             if avg_waiting_time < min_avg_waiting_time:
                 min_avg_waiting_time = avg_waiting_time
 
-        print "quantum: " + str(quantum),
-        print ", avg_waiting_time: " + str(avg_waiting_time)
-        print schedule
+        print self._testMethodDoc
+        print "quantum: ", quantum,
+        print ", avg_waiting_time: ", avg_waiting_time
+        print "schedule: ", schedule
+        print "-"*80
         self.assertEquals(6.4375, min_avg_waiting_time)
 
 if __name__ == '__main__':
