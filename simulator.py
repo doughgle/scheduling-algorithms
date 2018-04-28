@@ -65,6 +65,7 @@ def RR_scheduling(process_list, time_quantum):
     time = 0
     waiting_time = 0
     quantum = time_quantum
+    runningPid = -1
     q = deque(deepcopy(process_list))
 
     while q:
@@ -75,12 +76,15 @@ def RR_scheduling(process_list, time_quantum):
             time += 1
             continue
 
-        # context switch
         arrived.reverse()
         p = arrived.pop()
         q.remove(p)
-        schedule.append((time, p.id))
-        waiting_time = waiting_time + (time - p.arrive_time)
+
+        # context switch (zero overhead)
+        if p.id != runningPid:
+            schedule.append((time, p.id))
+            runningPid = p.id
+            waiting_time = waiting_time + (time - p.arrive_time)
 
         while quantum > 0 and p.burst_time > 0:
             quantum -= 1
