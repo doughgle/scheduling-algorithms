@@ -134,17 +134,20 @@ def SRTF_scheduling(process_list):
     return schedule, average_waiting_time(waiting_time, process_list)
 
 def SJF_scheduling(process_list, alpha):
-    '''Shortest Job First - no pre-emption, jobs run to completion.'''
+    '''Shortest Job First - no pre-emption, jobs run to completion.
+    Burst time predicition is simulated.
+    '''
     schedule = []
     waiting_time = 0
     time = 0
+    burst_lookup = {}
 
     q = deque(deepcopy(process_list))
 
     while q:
         # --- Schedule a process
         arrived = [p for p in q if p.arrive_time <= time]
-        sorted_procs = sorted(arrived, key=lambda p: p.burst_time, reverse=True)
+        sorted_procs = sorted(arrived, key=lambda p: get_predicted_burst(burst_lookup, p.id), reverse=True)
         if sorted_procs:
             p = sorted_procs.pop()
             schedule.append((time, p.id))
@@ -152,12 +155,23 @@ def SJF_scheduling(process_list, alpha):
 
             # --- Execute
             time += p.burst_time
+            prediction = alpha * p.burst_time + (1 - alpha) * get_predicted_burst(burst_lookup, p.id)
+            set_predicted_burst(burst_lookup, p.id, prediction)
             p.burst_time = 0
             q.remove(p)
         else:
             time += 1
 
     return schedule, average_waiting_time(waiting_time, process_list)
+
+def get_predicted_burst(burst_lookup, pid):
+    try:
+        return burst_lookup[pid]
+    except KeyError as e:
+        return 5
+
+def set_predicted_burst(burst_lookup, pid, prediction):
+    burst_lookup[pid] = prediction
 
 def read_input(input_file):
     result = []
