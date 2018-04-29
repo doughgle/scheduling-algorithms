@@ -1,8 +1,7 @@
 #!/usr/bin/python
 '''
-CS5250 Assignment 4, Scheduling policies simulator
-Sample skeleton program
-Author: Minh Ho
+Scheduling policies simulator
+Forked from Sample skeleton program, Mihn Ho, 2018.
 Input file:
     input.txt
 Output files:
@@ -10,19 +9,10 @@ Output files:
     RR.txt
     SRTF.txt
     SJF.txt
-Apr 10th Revision 1:
-    Update FCFS implementation, fixed the bug when there are idle time slices between processes
-    Thanks Huang Lung-Chen for pointing out
-Revision 2:
-    Change requirement for future_prediction SRTF => future_prediction shortest job first(SJF), the simpler non-preemptive version.
-    Let initial guess = 5 time units.
-    Thanks Lee Wei Ping for trying and pointing out the difficulty & ambiguity with future_prediction SRTF.
 '''
 import sys
 from collections import deque
 from copy import deepcopy
-
-# TODO: initial guess = 5 thing
 
 class Process:
     last_scheduled_time = 0
